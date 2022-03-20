@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Square Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .square {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            border-style: solid;
+        }
+
+        .button {
+            font-size: 36px;
+        }
+
+        .jump {
+            position: fixed;
+            bottom: 60px;
+            right: 70px;
+        }
+
+        .debug {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <p class="debug"></p>
+    <div class="square"></div>
+    <button class="button jump">Jump</button>
+
+    <script>
+        'use strict'
+        const body = document.querySelector('body');
+        const square = document.querySelector('.square');
+        const jumpBtn = document.querySelector('.jump');
+        const debug = document.querySelector('.debug');
+
+        // Place square initially centered in the viewport
+        const squarePos = {
+            top: Math.trunc(window.innerHeight / 2) - Math.trunc(square.offsetHeight / 2),
+            left: Math.trunc(window.innerWidth / 2) - Math.trunc(square.offsetWidth / 2),
+        };
+
+        const moveSquare = function(top, left) {
+            square.style.top = `${top}px`;
+            square.style.left = `${left}px`;
+            squarePos.top = top;
+            squarePos.left = left;
+
+            debug.textContent = `Square: ${squarePos.top} : ${squarePos.left}`;
+        };
+
+        const moveUp = function() {
+            moveSquare(squarePos.top - 10, squarePos.left);
+        }
+        const moveDown = function() {
+            moveSquare(squarePos.top + 10, squarePos.left);
+        }
+        const moveLeft = function() {
+            moveSquare(squarePos.top, squarePos.left - 10);
+        }
+        const moveRight = function() {
+            moveSquare(squarePos.top, squarePos.left + 10);
+        }
+
+        const jumpFn = function() {
+            // Constrain the new random square position such that the entire square remains
+            // inside the viewport.
+            const topRand = Math.trunc(Math.random() * (window.innerHeight - square.offsetHeight));
+            const leftRand = Math.trunc(Math.random() * (window.innerWidth - square.offsetWidth));
+            moveSquare(topRand, leftRand);
+        }
+
+        const keyFn = function(e) {
+            switch (e.key) {
+                case 'ArrowUp':
+                    moveUp();
+                    break;
+                case 'ArrowDown':
+                    moveDown();
+                    break;
+                case 'ArrowLeft':
+                    moveLeft();
+                    break;
+                case 'ArrowRight':
+                    moveRight();
+                    break;
+            }
+        }
+
+        jumpBtn.addEventListener('click', jumpFn);
+        body.addEventListener('keydown', keyFn);
+
+        moveSquare(squarePos.top, squarePos.left);
+    </script>
+</body>
+</html>
