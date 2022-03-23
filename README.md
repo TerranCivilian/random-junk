@@ -1,5 +1,4 @@
-# random-junk
-Jumbled assortment of exercises and tinkering.
+### A collection of unrelated single-file projects that weren't substantial enough for their own repo
 
 **list-lib.c:**<br>
 Doubly linked list implementation; loosely tested. Valgrind detects no leaks.
